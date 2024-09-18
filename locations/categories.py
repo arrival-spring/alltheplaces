@@ -9,7 +9,7 @@ from locations.items import Feature
 # cannot be done through NSI related pipeline magic then a spider is free to apply any
 # categories and attributes itself. This file provides some help in that area. It certainly
 # reduces the number of finger fumble mistypes which are the inevitable by-product
-# of lots of string bashing. If ever NSI / ATP where to change / augment the category scheme
+# of lots of string bashing. If ever NSI / ATP were to change / augment the category scheme
 # then the level of indirection provided here may also be of help!
 class Categories(Enum):
     BICYCLE_PARKING = {"amenity": "bicycle_parking"}
@@ -484,6 +484,7 @@ class Extras(Enum):
     FAXING = "service:fax"
     FEE = "fee"
     HALAL = "diet:halal"
+    HIGH_CHAIR = "highchair"
     ICE_CREAM = "ice_cream"
     INDOOR_SEATING = "indoor_seating"
     KIDS_AREA = "kids_area"
@@ -500,6 +501,8 @@ class Extras(Enum):
     PHOTO_PRINTING = "service:photo_printing"
     PICNIC_TABLES = "picnic_table"
     PRINTING = "service:print"
+    RESERVATION = "reservation"
+    RESERVATION_REQUIRED = "reservation=required"
     SELF_CHECKOUT = "self_checkout"
     SCANING = "service:scan"
     SHOWERS = "shower"
@@ -514,6 +517,7 @@ class Extras(Enum):
     USED_CAR_SALES = "service:vehicle:used_car_sales"
     VACUUM_CLEANER = "vacuum_cleaner"
     WHEELCHAIR = "wheelchair"
+    WHEELCHAIR_LIMITED = "wheelchair=limited"
     WIFI = "internet_access=wlan"
 
 
