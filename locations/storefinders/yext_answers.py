@@ -17,8 +17,9 @@ GOOGLE_ATTRIBUTES_MAP = {
     "has_wheelchair_accessible_restroom": Extras.TOILETS_WHEELCHAIR,
     "has_takeout": Extras.TAKEAWAY,
     "has_delivery": Extras.DELIVERY,
-    "accepts_reservations": Extras.RESERVATIONS, # NEEDS ADDING TO EXTRAS
-    "has_high_chairs": Extras.HIGH_CHAIR, # NEEDS ADDING TO EXTRAS
+    "accepts_reservations": Extras.RESERVATION,
+    "requires_reservations": Extras.RESERVATION_REQUIRED,
+    "has_high_chairs": Extras.HIGH_CHAIR,
     "pay_debit_card": PaymentMethods.DEBIT_CARDS,
     "pay_mobile_nfc": PaymentMethods.CONTACTLESS,
     "pay_credit_card": PaymentMethods.CREDIT_CARDS,
@@ -111,25 +112,12 @@ class YextAnswersSpider(Spider):
             item["opening_hours"] = self.parse_opening_hours(location.get("hours"))
             item["extras"]["opening_hours:delivery"] = self.parse_opening_hours(location.get("deliveryHours"))
 
-            if payment_methods := location.get("paymentOptions"):
-                payment_methods = [p.lower().replace(" ", "") for p in payment_methods]
-                apply_yes_no(PaymentMethods.AMERICAN_EXPRESS, item, "americanexpress" in payment_methods)
-                apply_yes_no(PaymentMethods.APPLE_PAY, item, "applepay" in payment_methods)
-                apply_yes_no(PaymentMethods.CASH, item, "cash" in payment_methods)
-                apply_yes_no(PaymentMethods.CHEQUE, item, "check" in payment_methods)
-                apply_yes_no(PaymentMethods.CONTACTLESS, item, "contactlesspayment" in payment_methods)
-                apply_yes_no(PaymentMethods.DINERS_CLUB, item, "dinersclub" in payment_methods)
-                apply_yes_no(PaymentMethods.DISCOVER_CARD, item, "discover" in payment_methods)
-                apply_yes_no(PaymentMethods.MASTER_CARD, item, "mastercard" in payment_methods)
-                apply_yes_no(PaymentMethods.SAMSUNG_PAY, item, "samsungpay" in payment_methods)
-                apply_yes_no(PaymentMethods.VISA, item, "visa" in payment_methods)
+            self.parse_payment_methods(location, item)
 
             if google_attributes := location.get("googleAttributes"):
                 for key, attribute in GOOGLE_ATTRIBUTES_MAP:
                     if key in google_attributes:
                         apply_yes_no(attribute, item, google_attributes[key][0], True)
-                if "requires_reservations" in google_attributes and google_attributes["requires_reservations"][0]:
-                    item["extras"]{Extras.RESERVATIONS] = "required"
                 wheelchair_keys_present = [key for key in GOOGLE_WHEELCHAIR_KEYS if key in google_attributes]
                 if all([google_attributes[key][0] for key in wheelchair_keys_present]):
                     apply_yes_no(Extras.WHEELCHAIR, item, True, True)
@@ -158,6 +146,20 @@ class YextAnswersSpider(Spider):
                 oh.add_range(day, time["start"], time["end"])
 
         return oh
+
+    def parse_payment_methods(self, location: dict, item: Feature) -> None:
+        if payment_methods := location.get("paymentOptions"):
+                payment_methods = [p.lower().replace(" ", "") for p in payment_methods]
+                apply_yes_no(PaymentMethods.AMERICAN_EXPRESS, item, "americanexpress" in payment_methods)
+                apply_yes_no(PaymentMethods.APPLE_PAY, item, "applepay" in payment_methods)
+                apply_yes_no(PaymentMethods.CASH, item, "cash" in payment_methods)
+                apply_yes_no(PaymentMethods.CHEQUE, item, "check" in payment_methods)
+                apply_yes_no(PaymentMethods.CONTACTLESS, item, "contactlesspayment" in payment_methods)
+                apply_yes_no(PaymentMethods.DINERS_CLUB, item, "dinersclub" in payment_methods)
+                apply_yes_no(PaymentMethods.DISCOVER_CARD, item, "discover" in payment_methods)
+                apply_yes_no(PaymentMethods.MASTER_CARD, item, "mastercard" in payment_methods)
+                apply_yes_no(PaymentMethods.SAMSUNG_PAY, item, "samsungpay" in payment_methods)
+                apply_yes_no(PaymentMethods.VISA, item, "visa" in payment_methods)
 
     def parse_item(self, location: dict, item: Feature) -> Iterable[Feature]:
         yield item
