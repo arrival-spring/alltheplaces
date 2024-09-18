@@ -478,6 +478,7 @@ class Extras(Enum):
     COMPUTING = "service:computer"
     COPYING = "service:copy"
     DELIVERY = "delivery"
+    DOG = "dog"
     DRINKING_WATER = "drinking_water"
     DRIVE_THROUGH = "drive_through"
     FAST_FOOD = "fast_food"
@@ -489,6 +490,7 @@ class Extras(Enum):
     INDOOR_SEATING = "indoor_seating"
     KIDS_AREA = "kids_area"
     KOSHER = "diet:kosher"
+    LIVE_MUSIC = "live_music"
     MONEYGRAM = "money_transfer=moneygram"
     MOTOR_VEHICLES = "motor_vehicle"
     NEW_CAR_SALES = "service:vehicle:new_car_sales"
@@ -516,6 +518,8 @@ class Extras(Enum):
     TYRE_SERVICES = "service:vehicle:tyres"
     USED_CAR_SALES = "service:vehicle:used_car_sales"
     VACUUM_CLEANER = "vacuum_cleaner"
+    VEGAN = "diet:vegan"
+    VEGETARIAN = "diet:vegetarian"
     WHEELCHAIR = "wheelchair"
     WHEELCHAIR_LIMITED = "wheelchair=limited"
     WIFI = "internet_access=wlan"
@@ -535,6 +539,7 @@ class PaymentMethods(Enum):
     BLIK = "payment:blik"
     CARDS = "payment:cards"
     CASH = "payment:cash"
+    CASH_ONLY = "payment:cash=only"
     CHEQUE = "payment:cheque"
     COINS = "payment:coins"
     CONTACTLESS = "payment:contactless"
@@ -804,6 +809,28 @@ def apply_healthcare_specialities(specialities: [HealthcareSpecialities], item: 
     """
     for s in specialities:
         apply_category({"healthcare:speciality": s.value}, item)
+
+
+class Drink(Enum):
+    """
+    Drink categories per https://wiki.openstreetmap.org/wiki/Key:drink:*
+    """
+    BEER = "drink:beer"
+    CIDER = "drink:cider"
+    COCKTAIL = "drink:cocktail
+    COFFEE = "drink:coffee"
+    COLA = "drink:cola"
+    CRAFT_BEER = "drink:craft_beer"
+    ESPRESSO = "drink:espresso"
+    JUICE = "drink:juice"
+    LIQUOR = "drink:liquor"
+    SOFT_DRINK = "drink:soft_drink"
+    SPARKLING_WINE = "drink:sparkling_wine"
+    TEA = "drink:tea"
+    VODKA = "drink:vodka"
+    WATER = "drink:water"
+    WHISKY = "drink:whisky"
+    WINE = "drink:wine"
 
 
 # TODO: something similar for fuel types
