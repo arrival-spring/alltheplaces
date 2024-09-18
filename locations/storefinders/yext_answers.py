@@ -9,20 +9,34 @@ from scrapy.spiders import Spider
 from locations.dict_parser import DictParser
 from locations.hours import OpeningHours
 from locations.items import Feature
-from locations.categories import Extras, apply_yes_no, PaymentMethods
+from locations.categories import Extras, apply_yes_no, PaymentMethods, Drink
 from locations.structured_data_spider import clean_facebook
 
 GOOGLE_ATTRIBUTES_MAP = {
     "has_restroom": Extras.Toilets,
     "has_wheelchair_accessible_restroom": Extras.TOILETS_WHEELCHAIR,
+    "has_wheelchair_accessible_parking": Extras.PARKING_WHEELCHAIR,
     "has_takeout": Extras.TAKEAWAY,
     "has_delivery": Extras.DELIVERY,
+    "has_drive_through": Extras.DRIVE_THROUGH,
+    "has_live_music": Extras.LIVE_MUSIC,
+    "has_seating_outdoors": Extras.OUTDOOR_SEATING,
     "accepts_reservations": Extras.RESERVATION,
     "requires_reservations": Extras.RESERVATION_REQUIRED,
     "has_high_chairs": Extras.HIGH_CHAIR,
+    "pay_check": PaymentMethods.CHEQUE
     "pay_debit_card": PaymentMethods.DEBIT_CARDS,
     "pay_mobile_nfc": PaymentMethods.CONTACTLESS,
     "pay_credit_card": PaymentMethods.CREDIT_CARDS,
+    "requires_cash_only": PaymentMethods.CASH_ONLY
+    "welcomes_dogs": Extras.DOG,
+    "serves_vegetarian": Extras.VEGETARIAN,
+    "serves_halal_food": Extras.HALAL,
+    "serves_liquor": Drink.LIQUOR,
+    "serves_coffee": Drink.COFFEE,
+    "serves_cocktails": Drink.COCKTAIL,
+    "serves_beer": Drink.BEER,
+    "serves_wine": Drink.WINE,
 }
 
 GOOGLE_WHEELCHAIR_KEYS = [
